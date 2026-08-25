@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this dataset or its tooling, please cite this release."
+title: ".ye Registration Data"
+type: dataset
+authors:
+  - name: "FreeTheDotYE contributors"
+version: 1.1.0
+date-released: 2026-08-25
+abstract: "Privacy-minimized normalized public technical registration facts and outcomes for the .ye namespace."

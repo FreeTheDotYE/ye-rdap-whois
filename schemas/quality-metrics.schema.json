@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": ".ye registration release quality metrics",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "grain",
+    "counts",
+    "whois_outcomes_by_type",
+    "diagnostics",
+    "completeness",
+    "cross_source_conflicts_by_field",
+    "checks"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "grain": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "whois_outcomes_by_type": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "completeness": {"type": "object"},
+    "cross_source_conflicts_by_field": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "checks": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "boolean"}
+    }
+  }
+}

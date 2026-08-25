@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": ".ye canonical merged domain",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_type",
+    "domain",
+    "domain_in_reference_corpus",
+    "registration_object_basis",
+    "standard_registrable_domain",
+    "standard_public_suffix_model_match",
+    "sources_observed",
+    "source_outcomes",
+    "source_outcome_ids",
+    "source_record_ids",
+    "source_record_variant_counts",
+    "registry_ids_observed",
+    "status_codes_observed",
+    "status_values_by_source",
+    "nameservers_observed",
+    "registrars_observed",
+    "lifecycle",
+    "dnssec",
+    "protocol_conformance_observed",
+    "cross_source_conflict_fields",
+    "has_cross_source_conflict"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "source_type": {"const": "merged"},
+    "domain": {"$ref": "#/$defs/domain"},
+    "domain_in_reference_corpus": {"type": "boolean"},
+    "registration_object_basis": {
+      "enum": ["authoritative_record", "reference_corpus", "registrable_outcome"]
+    },
+    "standard_registrable_domain": {"type": "string"},
+    "standard_public_suffix_model_match": {"type": "boolean"},
+    "sources_observed": {
+      "type": "array",
+      "items": {"enum": ["rdap", "whois"]},
+      "uniqueItems": true
+    },
+    "source_outcomes": {"$ref": "#/$defs/protocolStringSets"},
+    "source_outcome_ids": {"$ref": "#/$defs/protocolIdSets"},
+    "source_record_ids": {"$ref": "#/$defs/protocolIdSets"},
+    "source_record_variant_counts": {"$ref": "#/$defs/protocolCounts"},
+    "registry_ids_observed": {"$ref": "#/$defs/stringSet"},
+    "status_codes_observed": {"$ref": "#/$defs/stringSet"},
+    "status_values_by_source": {"$ref": "#/$defs/protocolStringSets"},
+    "nameservers_observed": {"type": "array", "items": {"type": "object"}},
+    "registrars_observed": {"type": "array", "items": {"type": "object"}},
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registration", "expiration", "last_changed"],
+      "properties": {
+        "registration": {"$ref": "#/$defs/stringSet"},
+        "expiration": {"$ref": "#/$defs/stringSet"},
+        "last_changed": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "dnssec": {"type": "object"},
+    "protocol_conformance_observed": {"$ref": "#/$defs/stringSet"},
+    "cross_source_conflict_fields": {"$ref": "#/$defs/stringSet"},
+    "has_cross_source_conflict": {"type": "boolean"}
+  },
+  "$defs": {
+    "domain": {
+      "type": "string",
+      "pattern": "^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+ye$"
+    },
+    "contentId": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "stringSet": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "protocolStringSets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rdap", "whois"],
+      "properties": {
+        "rdap": {"$ref": "#/$defs/stringSet"},
+        "whois": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "protocolIdSets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rdap", "whois"],
+      "properties": {
+        "rdap": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/contentId"},
+          "uniqueItems": true
+        },
+        "whois": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/contentId"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "protocolCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rdap", "whois"],
+      "properties": {
+        "rdap": {"type": "integer", "minimum": 0},
+        "whois": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

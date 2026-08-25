@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": ".ye privacy-safe source record variant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_type",
+    "domain",
+    "object_class",
+    "registry_ids",
+    "statuses",
+    "nameservers",
+    "registrars",
+    "lifecycle",
+    "dnssec",
+    "protocol_conformance",
+    "record_id",
+    "registration_object_basis",
+    "standard_registrable_domain",
+    "standard_public_suffix_model_match"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "source_type": {"enum": ["rdap", "whois"]},
+    "domain": {"$ref": "#/$defs/domain"},
+    "object_class": {"type": ["string", "null"]},
+    "registration_object_basis": {"const": "authoritative_record"},
+    "standard_registrable_domain": {"type": "string"},
+    "standard_public_suffix_model_match": {"type": "boolean"},
+    "registry_ids": {"$ref": "#/$defs/stringSet"},
+    "statuses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_value", "normalized"],
+        "properties": {
+          "source_value": {"type": "string"},
+          "normalized": {"type": "string"}
+        }
+      }
+    },
+    "nameservers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ldh_name", "registry_handle"],
+        "properties": {
+          "ldh_name": {"$ref": "#/$defs/domain"},
+          "registry_handle": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "registrars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["registry_handle", "name", "public_ids", "vcard_version"],
+        "properties": {
+          "registry_handle": {"type": ["string", "null"]},
+          "name": {"type": ["string", "null"]},
+          "public_ids": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["type", "identifier"],
+              "properties": {
+                "type": {"type": "string"},
+                "identifier": {"type": "string"}
+              }
+            }
+          },
+          "vcard_version": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "lifecycle": {"$ref": "#/$defs/lifecycle"},
+    "dnssec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "delegation_signed",
+        "zone_signed",
+        "max_signature_life",
+        "ds_records",
+        "key_records"
+      ],
+      "properties": {
+        "status": {"type": ["string", "null"]},
+        "delegation_signed": {"type": ["boolean", "null"]},
+        "zone_signed": {"type": ["boolean", "null"]},
+        "max_signature_life": {"type": ["integer", "null"], "minimum": 0},
+        "ds_records": {"type": "array", "items": {"type": "object"}},
+        "key_records": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "protocol_conformance": {"$ref": "#/$defs/stringSet"},
+    "record_id": {"$ref": "#/$defs/contentId"}
+  },
+  "$defs": {
+    "domain": {
+      "type": "string",
+      "pattern": "^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+ye$"
+    },
+    "contentId": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "stringSet": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "timestampSet": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3,6}Z$"
+      },
+      "uniqueItems": true
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registration", "expiration", "last_changed"],
+      "properties": {
+        "registration": {"$ref": "#/$defs/timestampSet"},
+        "expiration": {"$ref": "#/$defs/timestampSet"},
+        "last_changed": {"$ref": "#/$defs/timestampSet"}
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": ".ye normalized WHOIS outcome",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_type",
+    "query_name",
+    "registrable_domain",
+    "outcome",
+    "returned_domains",
+    "outcome_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "source_type": {"const": "whois"},
+    "query_name": {"$ref": "#/$defs/domain"},
+    "registrable_domain": {"type": "string"},
+    "outcome": {
+      "enum": [
+        "no_record",
+        "query_error",
+        "unparseable",
+        "different_domain_returned"
+      ]
+    },
+    "returned_domains": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/domain"},
+      "uniqueItems": true
+    },
+    "outcome_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {"const": "different_domain_returned"}
+        }
+      },
+      "then": {
+        "properties": {
+          "returned_domains": {"minItems": 1}
+        }
+      },
+      "else": {
+        "properties": {
+          "returned_domains": {"maxItems": 0}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "domain": {
+      "type": "string",
+      "pattern": "^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+ye$"
+    }
+  }
+}

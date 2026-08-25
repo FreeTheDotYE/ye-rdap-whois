@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*.orig
+*.rej
+.venv/
+.DS_Store

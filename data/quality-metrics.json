@@ -1,0 +1,148 @@
+{
+  "checks": {
+    "all_domains_valid": true,
+    "merged_domains_unique": true,
+    "outcome_attachments_exact": true,
+    "outcome_ids_unique": true,
+    "outcome_registrable_derivation_valid": true,
+    "outcome_returned_domains_valid": true,
+    "record_ids_unique": true,
+    "reference_corpus_fully_covered": true
+  },
+  "completeness": {
+    "rdap_record_variants": {
+      "dnssec_status": {
+        "populated_records": 1385,
+        "rate": 1.0,
+        "total_records": 1385
+      },
+      "expiration_date": {
+        "populated_records": 1385,
+        "rate": 1.0,
+        "total_records": 1385
+      },
+      "last_changed_date": {
+        "populated_records": 174,
+        "rate": 0.125632,
+        "total_records": 1385
+      },
+      "nameservers": {
+        "populated_records": 1339,
+        "rate": 0.966787,
+        "total_records": 1385
+      },
+      "registrars": {
+        "populated_records": 1385,
+        "rate": 1.0,
+        "total_records": 1385
+      },
+      "registration_date": {
+        "populated_records": 1385,
+        "rate": 1.0,
+        "total_records": 1385
+      },
+      "registry_ids": {
+        "populated_records": 1385,
+        "rate": 1.0,
+        "total_records": 1385
+      },
+      "statuses": {
+        "populated_records": 1385,
+        "rate": 1.0,
+        "total_records": 1385
+      }
+    },
+    "whois_record_variants": {
+      "dnssec_status": {
+        "populated_records": 1381,
+        "rate": 1.0,
+        "total_records": 1381
+      },
+      "expiration_date": {
+        "populated_records": 1381,
+        "rate": 1.0,
+        "total_records": 1381
+      },
+      "last_changed_date": {
+        "populated_records": 172,
+        "rate": 0.124547,
+        "total_records": 1381
+      },
+      "nameservers": {
+        "populated_records": 1336,
+        "rate": 0.967415,
+        "total_records": 1381
+      },
+      "registrars": {
+        "populated_records": 1381,
+        "rate": 1.0,
+        "total_records": 1381
+      },
+      "registration_date": {
+        "populated_records": 1381,
+        "rate": 1.0,
+        "total_records": 1381
+      },
+      "registry_ids": {
+        "populated_records": 1381,
+        "rate": 1.0,
+        "total_records": 1381
+      },
+      "statuses": {
+        "populated_records": 1381,
+        "rate": 1.0,
+        "total_records": 1381
+      }
+    }
+  },
+  "counts": {
+    "authoritative_registration_objects_outside_standard_suffix_model": 5,
+    "domains_in_both_protocols": 1371,
+    "domains_with_cross_source_conflict": 0,
+    "merged_domains": 1489,
+    "merged_domains_without_registration_record": 112,
+    "rdap_domains": 1376,
+    "rdap_duplicates_collapsed": 1366,
+    "rdap_record_variants": 1385,
+    "reference_corpus_domains": 1489,
+    "registration_domains_union": 1377,
+    "whois_different_domain_returned_attached_rows": 5,
+    "whois_different_domain_returned_query_names": 11,
+    "whois_different_domain_returned_rows": 11,
+    "whois_different_domain_returned_unattached_rows": 6,
+    "whois_different_domains_observed": 9,
+    "whois_domains": 1372,
+    "whois_duplicates_collapsed": 4131,
+    "whois_outcome_duplicates_collapsed": 52,
+    "whois_outcome_nonregistrable_query_names": 12,
+    "whois_outcome_query_names": 61,
+    "whois_outcome_rows": 61,
+    "whois_record_variants": 1381
+  },
+  "cross_source_conflicts_by_field": {},
+  "diagnostics": {
+    "rdap_artifacts_read": 2751,
+    "rdap_record_blocks_parsed": 2751,
+    "whois_artifacts_read": 2854,
+    "whois_artifacts_without_record": 98,
+    "whois_outcome_different_domain_returned": 15,
+    "whois_outcome_no_record": 74,
+    "whois_outcome_query_error": 1,
+    "whois_outcome_unparseable": 23,
+    "whois_record_blocks_parsed": 5512,
+    "whois_record_blocks_seen": 5512
+  },
+  "grain": {
+    "merged": "one row per domain in the union of the reference corpus, registration records, and source outcomes",
+    "rdap": "one row per distinct privacy-safe RDAP record variant",
+    "whois": "one row per distinct privacy-safe WHOIS record variant",
+    "whois_outcomes": "one undated row per distinct query, normalized outcome, and returned-domain set"
+  },
+  "schema_version": "1.1.0",
+  "whois_outcomes_by_type": {
+    "different_domain_returned": 11,
+    "no_record": 37,
+    "query_error": 1,
+    "unparseable": 12
+  }
+}
