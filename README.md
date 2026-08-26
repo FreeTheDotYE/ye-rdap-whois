@@ -6,7 +6,8 @@ This repository contains two complementary evidence layers:
    technical registration facts while omitting bulk contact cards.
 2. `observations/` is a complete, content-addressed archive of automated
    public RDAP responses and Certificate Transparency evidence for newly
-   observed `.ye` candidates. RDAP bodies, response headers, request metadata,
+   observed `.ye` candidates, plus content-addressed Common Crawl discovery
+   references. RDAP bodies, response headers, request metadata,
    precise observation times, certificate chains, and Cert Spotter JSON are
    retained without field masking.
 

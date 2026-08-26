@@ -115,6 +115,67 @@ class ObservationValidatorTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, "invalid domain"):
                 validate(root)
 
+    def test_common_crawl_signal_is_content_addressed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            observations = self.empty_archive(root)
+            body = {
+                "signal_type": "common_crawl",
+                "observed_date": "2026-08-26",
+                "evidence_id": "a" * 64,
+            }
+            signal = {
+                **body,
+                "signal_id": hashlib.sha256(
+                    canonical_json(body).encode("utf-8")
+                ).hexdigest(),
+            }
+            row = {
+                "schema_version": 1,
+                "domain": "example.com.ye",
+                "first_observed_date": "2026-08-26",
+                "last_observed_date": "2026-08-26",
+                "known_in_corpus_at_first_observation": False,
+                "signals": [signal],
+                "rdap_status": "unqueried",
+                "rdap_last_observed_at": None,
+                "rdap_latest_observation_id": None,
+                "registration_events": [],
+            }
+            index = (
+                observations
+                / "newly-observed-domains.jsonl"
+            )
+            index.write_text(
+                canonical_json(row) + "\n",
+                encoding="utf-8",
+            )
+            self.rewrite_manifest(observations)
+            self.assertEqual(
+                validate(root)["newly_observed_domains"],
+                1,
+            )
+
+            row["signals"][0]["evidence_id"] = "not-a-digest"
+            changed_body = {
+                key: value
+                for key, value in row["signals"][0].items()
+                if key != "signal_id"
+            }
+            row["signals"][0]["signal_id"] = hashlib.sha256(
+                canonical_json(changed_body).encode("utf-8")
+            ).hexdigest()
+            index.write_text(
+                canonical_json(row) + "\n",
+                encoding="utf-8",
+            )
+            self.rewrite_manifest(observations)
+            with self.assertRaisesRegex(
+                AssertionError,
+                "technical evidence reference",
+            ):
+                validate(root)
+
     def test_registrable_model_handles_structured_suffixes(self) -> None:
         self.assertEqual(
             registrable_domain("www.example.com.ye"),

@@ -325,7 +325,13 @@ def validate_domains(
             if signal["signal_type"] == "certificate_transparency":
                 if signal["evidence_id"] not in ct:
                     fail(f"{label}: broken CT reference")
-            elif signal["signal_type"] != "dns_reference":
+            elif signal["signal_type"] in {
+                "dns_reference",
+                "common_crawl",
+            }:
+                if not HEX_64.fullmatch(signal["evidence_id"]):
+                    fail(f"{label}: invalid technical evidence reference")
+            else:
                 fail(f"{label}: invalid signal type")
             signal_ids.append(signal["signal_id"])
         if signal_ids != sorted(set(signal_ids)) or not signal_ids:
