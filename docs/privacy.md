@@ -1,6 +1,13 @@
 # Privacy model
 
-This release applies a strict allowlist. It is designed for domain-level technical research, not contact discovery.
+The repository has two intentionally different layers.
+
+The normalized `data/` release applies a strict allowlist. It is designed for
+domain-level technical research, not contact discovery.
+
+The `observations/` archive preserves complete public RDAP responses and CT
+artifacts. It does not remove returned fields, remarks, notices, links, contact
+cards, response headers, or precise HTTP dates.
 
 ## Retained
 
@@ -20,6 +27,8 @@ This release applies a strict allowlist. It is designed for domain-level technic
 - Raw response bodies and free-text remarks.
 - Response headers, request logs, collection endpoints, acquisition chronology, source locations, and source filenames.
 - Input-provider identities and per-outcome source-set multiplicity.
+
+These exclusions apply only to normalized `data/` projections.
 
 ## Enforcement
 

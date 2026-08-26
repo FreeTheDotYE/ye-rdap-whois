@@ -6,7 +6,7 @@ Contributions that improve correctness, validation, documentation, or privacy ar
 
 1. Read the privacy and schema documentation.
 2. Keep claims limited to supported public technical facts.
-3. Do not add input-provider identities, collection endpoints, acquisition chronology, source locations, source filenames, raw bulk responses, or personal-contact fields.
+3. Normalized data changes follow the strict allowlist. Complete raw responses belong only in the content-addressed observations archive.
 4. Preserve exact lifecycle timestamps and distinct technical record variants.
 5. Do not collapse a conflict by choosing one source value without a documented deterministic rule.
 
@@ -23,6 +23,7 @@ Run:
 ```sh
 env PYTHONDONTWRITEBYTECODE=1 python3.12 -m unittest discover -s tests -p 'test_*.py' -v
 env PYTHONDONTWRITEBYTECODE=1 python3.12 scripts/validate_dataset.py
+env PYTHONDONTWRITEBYTECODE=1 python3.12 scripts/validate_observations.py
 ```
 
 Changes to canonical JSON fields, identifiers, CSV columns, SQLite tables, or semantics require a schema-version review and matching updates to tests, validators, machine-readable schemas, and documentation.

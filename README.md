@@ -1,8 +1,16 @@
-# .ye Registration Data
+# .ye Registration and Observation Data
 
-A privacy-minimized, deterministic release of normalized public technical facts about `.ye` registration objects.
+This repository contains two complementary evidence layers:
 
-Multiple public datasets and protocol records were normalized into a common model. The release deliberately omits input-provider identities, collection endpoints, acquisition chronology, source locations, source filenames, raw responses, and bulk personal-contact fields.
+1. `data/` is the deterministic normalized research dataset. It retains
+   technical registration facts while omitting bulk contact cards.
+2. `observations/` is a complete, content-addressed archive of automated
+   public RDAP responses and Certificate Transparency evidence for newly
+   observed `.ye` candidates. RDAP bodies, response headers, request metadata,
+   precise observation times, certificate chains, and Cert Spotter JSON are
+   retained without field masking.
+
+Normalization is additive and never replaces the complete raw evidence.
 
 ## What this repository contains
 
@@ -10,6 +18,10 @@ Multiple public datasets and protocol records were normalized into a common mode
 - Exact normalized domain lifecycle timestamps.
 - Registry identifiers, statuses, nameservers, registrar-level technical identifiers, DNSSEC facts, and protocol conformance values.
 - Explicit normalized WHOIS failure outcomes.
+- Complete immutable RDAP response bodies and HTTP exchange metadata.
+- Complete matching CT certificate chains and Cert Spotter JSON.
+- A newly observed domain index that distinguishes discovery signals from
+  RDAP-confirmed objects and registry-supplied registration dates.
 - Explicit `different_domain_returned` outcomes when a public query returned a different public domain, including the sorted returned-domain set.
 - A deterministic merged domain view, CSV projections, quality metrics, checksums, and an equivalent SQLite projection.
 
@@ -29,6 +41,10 @@ The release preserves conflicting or distinct technical variants instead of sele
 | `data/registration.sqlite` | Deterministic relational projection |
 | `data/quality-metrics.json` | Coverage, diagnostics, conflicts, and invariant results |
 | `data/CHECKSUMS.sha256` | SHA-256 checksums for every other release file |
+| `observations/newly-observed-domains.jsonl` | Candidate ledger with discovery and RDAP status |
+| `observations/rdap/` | Complete RDAP bodies, exchange envelopes, and index |
+| `observations/ct/` | Matching CT certificate chains, parser JSON, and event index |
+| `observations/MANIFEST.sha256` | SHA-256 coverage for every observation artifact |
 
 See `docs/data-dictionary.md`, `docs/schema.md`, `docs/privacy.md`, and `docs/quality.md` before analysis.
 
@@ -39,13 +55,17 @@ Python 3.12 or newer is sufficient; the validation path uses only the standard l
 ```sh
 env PYTHONDONTWRITEBYTECODE=1 python3.12 -m unittest discover -s tests -p 'test_*.py' -v
 env PYTHONDONTWRITEBYTECODE=1 python3.12 scripts/validate_dataset.py
+env PYTHONDONTWRITEBYTECODE=1 python3.12 scripts/validate_observations.py
 ```
 
 Validation checks canonical JSON, schemas, hashes, timestamps, sorting, privacy rules, the exact canonical merge, byte-exact CSV projections, a full logical SQLite projection, integrity, foreign keys, metrics, and checksums.
 
 ## Interpretation limits
 
-This is historical technical evidence, not a live registry, ownership determination, affiliation finding, legal conclusion, or allegation of intent. Absence is not proof that a domain never existed. Conflicts can reflect protocol semantics, update timing, incomplete fields, or differing public records.
+RDAP validates a known candidate; it does not enumerate unknown registrations.
+CT shows certificate issuance, not registration or abusive conduct. A first-seen
+date is never converted into a registration date. Absence is not proof that a
+domain never existed.
 
 ## Licensing and data rights
 
@@ -53,4 +73,4 @@ The MIT license in `LICENSE` applies to repository code only. Data and factual r
 
 ## Citation and contributions
 
-Citation metadata is in `CITATION.cff`. Contributions must follow `CONTRIBUTING.md`, including the prohibition on submitting raw bulk responses or personal-contact fields. Security-sensitive reports follow `SECURITY.md`.
+Citation metadata is in `CITATION.cff`. Contributions must follow `CONTRIBUTING.md`. Security-sensitive reports follow `SECURITY.md`.

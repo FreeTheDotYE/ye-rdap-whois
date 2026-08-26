@@ -30,3 +30,6 @@ jobs:
 
       - name: Validate release projections
         run: python scripts/validate_dataset.py
+
+      - name: Validate complete observation archive
+        run: python scripts/validate_observations.py
